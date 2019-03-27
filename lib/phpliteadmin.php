@@ -44,10 +44,10 @@
 // Please see https://bitbucket.org/phpliteadmin/public/wiki/Configuration for more details
 
 //password to gain access
-$password = 'admin';
+// $password = 'admin';
 
 //directory relative to this file to search for databases (if false, manually list databases in the $databases variable)
-$directory = '.';
+// $directory = '.';
 
 //whether or not to scan the subdirectories of the above directory infinitely deep
 $subdirectories = false;
@@ -69,20 +69,20 @@ $databases = array(
 /* ---- Interface settings ---- */
 
 // Theme! If you want to change theme, save the CSS file in same folder of phpliteadmin or in folder "themes"
-$theme = 'phpliteadmin.css';
+// $theme = 'phpliteadmin.css';
 
 // the default language! If you want to change it, save the language file in same folder of phpliteadmin or in folder "languages"
 // More about localizations (downloads, how to translate etc.): https://bitbucket.org/phpliteadmin/public/wiki/Localization
-$language = 'en';
+// $language = 'en';
 
 // set default number of rows. You need to relog after changing the number
-$rowsNum = 30;
+// $rowsNum = 30;
 
 // reduce string characters by a number bigger than 10
-$charsNum = 300;
+// $charsNum = 300;
 
 // maximum number of SQL queries to save in the history
-$maxSavedQueries = 10;
+// $maxSavedQueries = 10;
 
 /* ---- Custom functions ---- */
 
@@ -106,10 +106,10 @@ function leet_text($value)
 /* ---- Advanced options ---- */
 
 //changing the following variable allows multiple phpLiteAdmin installs to work under the same domain.
-$cookie_name = 'pla3412';
+// $cookie_name = 'pla3412';
 
 //whether or not to put the app in debug mode where errors are outputted
-$debug = false;
+// $debug = false;
 
 // the user is allowed to create databases with only these extensions
 $allowed_extensions = array('db','db3','sqlite','sqlite3');
@@ -425,7 +425,7 @@ if (is_readable($config_filename))
 //constants 1
 define("PROJECT", "phpLiteAdmin");
 define("VERSION", "1.9.7.1");
-define("PAGE", basename(__FILE__));
+define("PAGE", $this->routeUrl('/phpliteadmin/pla'));
 define("FORCETYPE", false); //force the extension that will be used (set to false in almost all circumstances except debugging)
 define("SYSTEMPASSWORD", $password); // Makes things easier.
 define('PROJECT_URL','http://www.phpliteadmin.org/');
@@ -443,8 +443,8 @@ if (isset($_GET['resource']))
 }
 
 // don't mess with this - required for the login session
-ini_set('session.cookie_httponly', '1');
-session_start();
+// ini_set('session.cookie_httponly', '1');
+// session_start();
 // generate CSRF token 
 if (empty($_SESSION['token']))
 {
@@ -492,10 +492,8 @@ $pageTimer = new MicroTimer();
 // load language file
 if($language != 'en') {
  	$temp_lang=$lang;
-	if(is_file('languages/lang_'.$language.'.php'))
-		include('languages/lang_'.$language.'.php');
-	elseif(is_file('lang_'.$language.'.php'))
-		include('lang_'.$language.'.php');
+	if($langfile = $this->path('#config:phpliteadmin/i18n/lang_'.$language.'.php'))
+		include($langfile);
 	$lang = array_merge($temp_lang, $lang);
 	unset($temp_lang);
 }
@@ -975,17 +973,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 <?php
 //- HTML: css/theme include
-if(isset($_GET['theme'])) $theme = basename($_GET['theme']);
-
-// allow themes to be dropped in subfolder "themes"
-if(is_file('themes/'.$theme)) $theme = 'themes/'.$theme;
-
-if (file_exists($theme))
-	// an external stylesheet exists - import it
-	echo "<link href='{$theme}' rel='stylesheet' type='text/css' />", PHP_EOL;
-else
-	// only use the default stylesheet if an external one does not exist
-	echo "<link href='?resource=css' rel='stylesheet' type='text/css' />", PHP_EOL;
+echo "<link href='".$this->routeUrl('/phpliteadmin/css')."' rel='stylesheet' type='text/css' />", PHP_EOL;
 
 // HTML: output help text, then exit
 if(isset($_GET['help']))
