@@ -31,11 +31,11 @@ class Admin extends \Cockpit\AuthController {
         $directory = COCKPIT_STORAGE_FOLDER.'/data';  // set data dir
         $language = $this('i18n')->locale;            // set language
 
-        if (!empty($this->config['rowsNum']))             $rowsNum = $this->config['rowsNum'];
-        if (!empty($this->config['charsNum']))            $charsNum = $this->config['charsNum'];
-        if (!empty($this->config['maxSavedQueries']))     $maxSavedQueries = $this->config['maxSavedQueries'];
-        if (!empty($this->config['cookie_name']))         $cookie_name = $this->config['cookie_name'];
-        if (!empty($this->config['debug']))               $debug = $this->config['debug'];
+        $rowsNum         = !empty($this->config['rowsNum']))         ? $this->config['rowsNum']         : 30;
+        $charsNum        = !empty($this->config['charsNum']))        ? $this->config['charsNum']        : 300;
+        $maxSavedQueries = !empty($this->config['maxSavedQueries'])) ? $this->config['maxSavedQueries'] : 10;
+        $cookie_name     = !empty($this->config['cookie_name']))     ? $this->config['cookie_name']     : 'pla3412';
+        $debug           = !empty($this->config['debug']))           ? $this->config['debug']           : false;
 
         include($this->path('phpliteadmin:phpliteadmin.php'));
 
