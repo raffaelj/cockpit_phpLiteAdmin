@@ -21,6 +21,8 @@ Now phpLiteAdmin should be available in your admin interface if you have admin r
 
 ## config options
 
+The addon works without any config, but you can adjust a few things:
+
 ```yaml
 phpliteadmin:
     width: 100%
@@ -49,7 +51,7 @@ Download i18n files from the [official source][4] and copy them into `config/php
 
 ## License
 
-phpLiteAdmin is licensed under the terms of the GNU General [Public License](http://www.gnu.org/licenses/gpl.html), so I chose the same license for this addon.
+phpLiteAdmin is licensed under the terms of the GNU General [Public License](http://www.gnu.org/licenses/gpl.html), so I chose the same license for this addon. See [LICENSE file](/LICENSE) for more information.
 
 
 [1]: https://www.phpliteadmin.org/
@@ -57,4 +59,4 @@ phpLiteAdmin is licensed under the terms of the GNU General [Public License](htt
 [3]: https://bitbucket.org/phpliteadmin/public/downloads/phpliteadmin_themes_2016-02-29.zip
 [4]: https://bitbucket.org/phpliteadmin/public/wiki/Localization
 [5]: https://bitbucket.org/phpliteadmin/public/downloads/phpLiteAdmin_v1-9-7-1.zip
-[6]: /commits
+[6]: https://github.com/raffaelj/cockpit_phpLiteAdmin/commit/4adfb8677ef46447defbcbdf914d0ffdea379b70
