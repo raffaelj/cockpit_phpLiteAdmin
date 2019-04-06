@@ -6,7 +6,7 @@
  * @see       https://github.com/agentejo/cockpit/
  * @see       https://www.phpliteadmin.org/
  * 
- * @version   0.1.0
+ * @version   0.1.1
  * @author    Raffael Jesche
  * @license   GPL
  */
