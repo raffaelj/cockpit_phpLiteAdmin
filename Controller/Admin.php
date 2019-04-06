@@ -39,6 +39,8 @@ class Admin extends \Cockpit\AuthController {
 
         include($this->path('phpliteadmin:lib/phpliteadmin.php'));
 
+        $this->app->stop(200);
+
     }
 
     public function css() {
@@ -57,6 +59,8 @@ class Admin extends \Cockpit\AuthController {
             include($themefile);
         else
             include($this->path('phpliteadmin:themes/'.$theme));
+
+        $this->app->stop(200);
 
     }
 
