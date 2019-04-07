@@ -24,6 +24,28 @@ class Admin extends \Cockpit\AuthController {
         if(!$this->module('cockpit')->isSuperAdmin())
             return $this->helper('admin')->denyRequest();
 
+        $path = $this->path('phpliteadmin:lib/phpliteadmin.php');
+
+        // return cached javascript
+        if ($this->param('resource') == 'javascript') {
+
+            $timestamp = filemtime($path);
+            $gmt_timestamp = gmdate(DATE_RFC1123, $timestamp);
+
+            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == strtotime($gmt_timestamp)) {
+                header('HTTP/1.1 304 Not Modified');
+                $this->app->stop();
+            }
+
+            header("Content-Type: text/javascript");
+            header('Content-Length: '.filesize($path));
+            header('Last-Modified: ' . $gmt_timestamp);
+            header('Expires: ' . gmdate(DATE_RFC1123, time() + 31556926));
+            header('Cache-Control: max-age=31556926');
+            header('Pragma: max-age=31556926');
+
+        }
+
         // make variables global to avoid namespace issues in included phpliteadmin.php
         global $databases, $lang, $charsNum, $allowed_extensions, $debug;
 
@@ -37,9 +59,9 @@ class Admin extends \Cockpit\AuthController {
         $cookie_name     = !empty($this->config['cookie_name'])     ? $this->config['cookie_name']     : 'pla3412';
         $debug           = !empty($this->config['debug'])           ? $this->config['debug']           : false;
 
-        include($this->path('phpliteadmin:lib/phpliteadmin.php'));
+        include($path);
 
-        $this->app->stop(200);
+        $this->app->stop();
 
     }
 
@@ -53,14 +75,27 @@ class Admin extends \Cockpit\AuthController {
         if (strpos($theme, '/') === false)
             $theme .= '/phpliteadmin.css';
 
-        $this->app->response->mime = 'css';
+        if (!$themefile = $this->path("#config:phpliteadmin/themes/$theme"))
+            $themefile = $this->path('phpliteadmin:themes/'.$theme);
 
-        if ($themefile = $this->path("#config:phpliteadmin/themes/$theme"))
-            include($themefile);
-        else
-            include($this->path('phpliteadmin:themes/'.$theme));
+        $timestamp = filemtime($themefile);
+        $gmt_timestamp = gmdate(DATE_RFC1123, $timestamp);
 
-        $this->app->stop(200);
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == strtotime($gmt_timestamp)) {
+            header('HTTP/1.1 304 Not Modified');
+            $this->app->stop();
+        }
+
+        header("Content-Type: text/css");
+        header('Content-Length: '.filesize($themefile));
+        header('Last-Modified: ' . $gmt_timestamp);
+        header('Expires: ' . gmdate(DATE_RFC1123, time() + 31556926));
+        header('Cache-Control: max-age=31556926');
+        header('Pragma: max-age=31556926');
+
+        include($themefile);
+
+        $this->app->stop();
 
     }
 
