@@ -1,5 +1,11 @@
 # phpLiteAdmin addon for Cockpit CMS
 
+**This addon is not compatible with Cockpit CMS v2.**
+
+See also [Cockpit CMS v1 docs](https://v1.getcockpit.com/documentation), [Cockpit CMS v1 repo](https://github.com/agentejo/cockpit) and [Cockpit CMS v2 docs](https://getcockpit.com/documentation/), [Cockpit CMS v2 repo](https://github.com/Cockpit-HQ/Cockpit).
+
+---
+
 This addon adds a [phpLiteAdmin][1] interface for simple direct database access if you use Cockpit with SQLite.
 
 I used the [latest version 1.9.7.1][5] and did some modifications. I know, I should have forked and built the whole thing, but it works for me. I made the initial commit without modifications, so you can see the differences in the [commit history][6].
